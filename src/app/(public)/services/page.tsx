@@ -1,7 +1,9 @@
-import Image from 'next/image'
+import { getPageContent } from '@/lib/page-content'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 import CmsImage from '@/components/ui/CmsImage'
+import connectDB from '@/lib/mongodb'
+import Service, { type IService } from '@/models/Service'
 import { getPublicPrograms } from '@/lib/public-content'
 import { BACKGROUND_FORMS, LEAGUE_REGISTRATION_FORMS } from '@/lib/registration-forms'
 
@@ -12,14 +14,17 @@ export const metadata = {
 }
 
 export default async function ServicesPage() {
+  const c = await getPageContent('services')
   const programs = await getPublicPrograms()
+  await connectDB()
+  const services = await Service.find({ isPublished: true }).sort({ order: 1 }).lean<IService[]>()
 
   return (
     <>
       <section className="relative py-20 lg:py-32 text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/hero-bg.png"
+          <CmsImage
+            src={c('hero.image')}
             alt="Team TEXAS sports programs"
             fill
             className="object-cover"
@@ -35,11 +40,10 @@ export default async function ServicesPage() {
             </svg>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
-            THE PROGRAMS <span className="text-warm-gold">WE OFFER</span>
+            {c('hero.title')}
           </h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200">
-            Team TEXAS Special Needs offers inclusive leagues and unified teams—helping every player belong,
-            grow, and play.
+            {c('hero.subtitle')}
           </p>
         </div>
       </section>
@@ -103,6 +107,39 @@ export default async function ServicesPage() {
         </div>
       </section>
 
+      {services.length > 0 && (
+        <section className="py-16 lg:py-24 bg-warm-cream">
+          <div className="section-container">
+            <h2 className="text-3xl md:text-4xl font-black text-midnight-navy text-center mb-12">
+              More ways to get involved
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {services.map((service) => (
+                <Link
+                  key={service._id.toString()}
+                  href={`/services/${service.slug}`}
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow"
+                >
+                  <div className="relative h-56">
+                    <CmsImage
+                      src={service.cardImage}
+                      alt={service.cardImageAlt}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 100vw, 33vw"
+                    />
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-midnight-navy mb-2">{service.title}</h3>
+                    <p className="text-gray-700 line-clamp-3">{service.excerpt}</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       <section className="py-16 lg:py-24 bg-warm-cream">
         <div className="section-container">
           <h2 className="text-3xl md:text-4xl font-black text-midnight-navy text-center mb-12">
@@ -151,3 +188,5 @@ export default async function ServicesPage() {
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

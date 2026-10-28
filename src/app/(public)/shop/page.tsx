@@ -1,4 +1,5 @@
-import Image from 'next/image'
+import { getPageContent } from '@/lib/page-content'
+import CmsImage from '@/components/ui/CmsImage'
 import connectDB from '@/lib/mongodb'
 import Product, { type IProduct } from '@/models/Product'
 
@@ -8,6 +9,7 @@ export const metadata = {
 }
 
 export default async function ShopPage() {
+  const c = await getPageContent('shop')
   await connectDB()
   const products = await Product.find({ isPublished: true }).sort({ order: 1 }).lean<IProduct[]>()
 
@@ -15,9 +17,9 @@ export default async function ShopPage() {
     <>
       <section className="relative py-20 lg:py-32 bg-gradient-to-br from-midnight-navy to-texas-blue text-white">
         <div className="section-container text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Shop</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">{c('hero.title')}</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200">
-            Support Team TEXAS with official merchandise
+            {c('hero.subtitle')}
           </p>
         </div>
       </section>
@@ -36,7 +38,7 @@ export default async function ShopPage() {
               {products.map((product) => (
                 <div key={product._id.toString()} className="card">
                   <div className="relative h-80">
-                    <Image
+                    <CmsImage
                       src={product.images[0]?.url || ''}
                       alt={product.images[0]?.alt || product.name}
                       fill
@@ -82,3 +84,5 @@ export default async function ShopPage() {
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

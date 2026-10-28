@@ -1,3 +1,4 @@
+import { getPageContent } from '@/lib/page-content'
 import Link from 'next/link'
 import connectDB from '@/lib/mongodb'
 import PricingPlan, { type IPricingPlan } from '@/models/PricingPlan'
@@ -10,6 +11,7 @@ export const metadata = {
 }
 
 export default async function PricingPage() {
+  const c = await getPageContent('pricing')
   await connectDB()
   const [plans, settings] = await Promise.all([
     PricingPlan.find({ isVisible: true }).sort({ order: 1 }).lean<IPricingPlan[]>(),
@@ -22,9 +24,9 @@ export default async function PricingPage() {
     <>
       <section className="relative py-20 lg:py-32 bg-gradient-to-br from-midnight-navy to-texas-blue text-white">
         <div className="section-container text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Pricing</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">{c('hero.title')}</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200">
-            Affordable programs designed to be accessible for all families
+            {c('hero.subtitle')}
           </p>
         </div>
       </section>
@@ -128,3 +130,5 @@ export default async function PricingPage() {
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

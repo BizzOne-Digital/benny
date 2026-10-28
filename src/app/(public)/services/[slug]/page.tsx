@@ -1,17 +1,10 @@
-import Image from 'next/image'
+import CmsImage from '@/components/ui/CmsImage'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import connectDB from '@/lib/mongodb'
-import Service, { type IService } from '@/models/Service'
+import Service from '@/models/Service'
 import Button from '@/components/ui/Button'
 
-export async function generateStaticParams() {
-  await connectDB()
-  const services = await Service.find({ isPublished: true }).select('slug').lean<Pick<IService, 'slug'>[]>()
-  return services.map((service) => ({
-    slug: service.slug,
-  }))
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -51,7 +44,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       {/* Hero */}
       <section className="relative py-20 lg:py-32 bg-midnight-navy text-white overflow-hidden">
         <div className="absolute inset-0">
-          <Image
+          <CmsImage
             src={service.heroImage || service.cardImage}
             alt={service.heroImageAlt || service.cardImageAlt}
             fill
@@ -84,6 +77,28 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           </div>
         </div>
       </section>
+
+      {/* Custom sections (managed in admin) */}
+      {(service.sections || [])
+        .filter((s) => s.enabled !== false && (s.heading || s.body || s.imageUrl))
+        .sort((a, b) => a.order - b.order)
+        .map((s, index) => (
+          <section key={index} className={`py-16 lg:py-24 ${index % 2 === 0 ? 'bg-warm-cream' : 'bg-white'}`}>
+            <div className="section-container">
+              <div className="max-w-4xl mx-auto">
+                {s.heading && (
+                  <h2 className="text-3xl md:text-4xl font-bold text-midnight-navy mb-6">{s.heading}</h2>
+                )}
+                {s.imageUrl && (
+                  <div className="relative h-80 rounded-2xl overflow-hidden shadow-xl mb-6">
+                    <CmsImage src={s.imageUrl} alt={s.imageAlt || s.heading || service.title} fill className="object-cover" />
+                  </div>
+                )}
+                {s.body && <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-line">{s.body}</p>}
+              </div>
+            </div>
+          </section>
+        ))}
 
       {/* Benefits */}
       {service.benefits && service.benefits.length > 0 && (
@@ -192,3 +207,5 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

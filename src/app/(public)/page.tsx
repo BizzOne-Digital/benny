@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import connectDB from '@/lib/mongodb'
 import GalleryImage from '@/models/GalleryImage'
 import CmsImage from '@/components/ui/CmsImage'
+import { getPageContent } from '@/lib/page-content'
 import { getSiteSettings } from '@/lib/site-settings'
 import { getPublicAnnouncements, getPublicPrograms } from '@/lib/public-content'
 import {
@@ -20,10 +20,17 @@ export const metadata = {
 export default async function HomePage() {
   await connectDB()
 
+  const c = await getPageContent('home')
   const settings = await getSiteSettings()
   const programs = await getPublicPrograms()
   const specialAnnouncements = await getPublicAnnouncements()
 
+  // Last two words of the headline are shown in red, the rest in white.
+  const headlineWords = (settings.homeHeroHeadline || 'EVERYONE DESERVES THEIR MOMENT TO PLAY.')
+    .trim()
+    .split(/\s+/)
+  const headlineMain = headlineWords.slice(0, -2).join(' ')
+  const headlineAccent = headlineWords.slice(-2).join(' ')
   const heroEyebrow =
     settings.homeHeroEyebrow || 'WELCOME TO TEAM TEXAS SPECIAL NEEDS'
   const heroSubtext =
@@ -49,8 +56,8 @@ export default async function HomePage() {
       <section className="relative h-screen flex items-start overflow-hidden bg-midnight-navy pt-8">
         {/* Background Image - hero-bg.png */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/hero-bg.png"
+          <CmsImage
+            src={c('hero.image')}
             alt="Inclusive basketball - young athlete in wheelchair shooting basketball with team cheering"
             fill
             className="object-cover"
@@ -111,10 +118,8 @@ export default async function HomePage() {
 
               {/* Main Headline */}
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 animate-slide-up leading-tight">
-                <span className="text-white block">EVERYONE</span>
-                <span className="text-white block">DESERVES</span>
-                <span className="text-white block">THEIR MOMENT</span>
-                <span className="text-victory-red block">TO PLAY.</span>
+                <span className="text-white block">{headlineMain}</span>
+                <span className="text-victory-red block">{headlineAccent}</span>
               </h1>
 
               {/* Description */}
@@ -213,14 +218,14 @@ export default async function HomePage() {
                 </svg>
               </div>
               <h2 className="text-4xl lg:text-5xl font-black text-midnight-navy mb-2">
-                MORE THAN
+                {c('intro.title1')}
               </h2>
               <h2 className="text-4xl lg:text-5xl font-black text-victory-red mb-6">
-                A GAME.
+                {c('intro.title2')}
               </h2>
               <div className="w-16 h-1 bg-warm-gold mb-6"></div>
               <p className="text-xl text-ink mb-6 leading-relaxed">
-                We create a place to belong, grow and celebrate every victory.
+                {c('intro.text')}
               </p>
               <Link href="/about" className="inline-flex items-center gap-2 text-texas-blue font-bold hover:gap-3 transition-all">
                 Discover Our Mission
@@ -233,8 +238,8 @@ export default async function HomePage() {
             {/* Right Images Grid */}
             <div className="grid grid-cols-2 gap-4">
               <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg">
-                <Image
-                  src="/home-1.png"
+                <CmsImage
+                  src={c('intro.image1')}
                   alt="Team TEXAS athlete high-fiving coach"
                   fill
                   className="object-cover"
@@ -242,8 +247,8 @@ export default async function HomePage() {
                 />
               </div>
               <div className="relative h-64 rounded-2xl overflow-hidden shadow-lg mt-8">
-                <Image
-                  src="/home-2.png"
+                <CmsImage
+                  src={c('intro.image2')}
                   alt="Coach with Team TEXAS athlete outdoors"
                   fill
                   className="object-cover"
@@ -520,7 +525,7 @@ export default async function HomePage() {
       {/* Stories From Our Team */}
       <section className="py-16 lg:py-24 bg-midnight-navy text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
-          <Image
+          <CmsImage
             src="/hero-bg.png"
             alt=""
             fill
@@ -541,7 +546,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             {/* Image */}
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
-              <Image
+              <CmsImage
                 src="/home-6.png"
                 alt="Team TEXAS athlete celebrating on court with teammates"
                 fill
@@ -587,8 +592,8 @@ export default async function HomePage() {
       <section className="relative py-24 lg:py-32 text-white overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/hero-bg.png"
+          <CmsImage
+            src={c('cta.image')}
             alt="Team TEXAS athlete ready to play"
             fill
             className="object-cover"
@@ -601,10 +606,10 @@ export default async function HomePage() {
         <div className="section-container relative z-10">
           <div className="max-w-4xl">
             <h2 className="text-5xl lg:text-6xl font-black mb-6">
-              READY TO PLAY?
+              {c('cta.title')}
             </h2>
             <p className="text-2xl lg:text-3xl mb-10 leading-relaxed max-w-2xl">
-              Join Team Texas and give your athlete the opportunity to grow, compete and thrive.
+              {c('cta.text')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/contact">
@@ -624,3 +629,5 @@ export default async function HomePage() {
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

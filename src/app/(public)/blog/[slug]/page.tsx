@@ -1,14 +1,9 @@
-import Image from 'next/image'
+import CmsImage from '@/components/ui/CmsImage'
 import { notFound } from 'next/navigation'
 import { formatDate } from '@/lib/utils'
 import connectDB from '@/lib/mongodb'
-import BlogPost, { type IBlogPost } from '@/models/BlogPost'
+import BlogPost from '@/models/BlogPost'
 
-export async function generateStaticParams() {
-  await connectDB()
-  const posts = await BlogPost.find({ status: 'published' }).select('slug').lean<Pick<IBlogPost, 'slug'>[]>()
-  return posts.map((post) => ({ slug: post.slug }))
-}
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -58,7 +53,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
 
           <div className="relative h-96 mb-12 rounded-2xl overflow-hidden">
-            <Image
+            <CmsImage
               src={post.coverImage}
               alt={post.coverImageAlt}
               fill
@@ -92,3 +87,5 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

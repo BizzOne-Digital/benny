@@ -1,4 +1,5 @@
-import Image from 'next/image'
+import { getPageContent } from '@/lib/page-content'
+import CmsImage from '@/components/ui/CmsImage'
 import connectDB from '@/lib/mongodb'
 import TeamMember, { type ITeamMember } from '@/models/TeamMember'
 
@@ -8,6 +9,7 @@ export const metadata = {
 }
 
 export default async function TeamPage() {
+  const c = await getPageContent('team')
   await connectDB()
   const team = await TeamMember.find({ isPublished: true }).sort({ order: 1 }).lean<ITeamMember[]>()
 
@@ -15,9 +17,9 @@ export default async function TeamPage() {
     <>
       <section className="relative py-20 lg:py-32 bg-gradient-to-br from-midnight-navy to-texas-blue text-white">
         <div className="section-container text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Our Team</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">{c('hero.title')}</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200">
-            Meet the passionate people making a difference in our community
+            {c('hero.subtitle')}
           </p>
         </div>
       </section>
@@ -32,7 +34,7 @@ export default async function TeamPage() {
                 <div key={member._id.toString()} className="bg-white rounded-2xl shadow-lg overflow-hidden">
                   {member.photoUrl && (
                     <div className="relative h-80">
-                      <Image
+                      <CmsImage
                         src={member.photoUrl}
                         alt={member.photoAlt || member.name}
                         fill
@@ -88,3 +90,5 @@ export default async function TeamPage() {
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

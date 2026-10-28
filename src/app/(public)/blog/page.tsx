@@ -1,4 +1,5 @@
-import Image from 'next/image'
+import { getPageContent } from '@/lib/page-content'
+import CmsImage from '@/components/ui/CmsImage'
 import Link from 'next/link'
 import { formatDate } from '@/lib/utils'
 import connectDB from '@/lib/mongodb'
@@ -10,6 +11,7 @@ export const metadata = {
 }
 
 export default async function BlogPage() {
+  const c = await getPageContent('blog')
   await connectDB()
   const posts = await BlogPost.find({ status: 'published' })
     .sort({ publishDate: -1 })
@@ -19,9 +21,9 @@ export default async function BlogPage() {
     <>
       <section className="relative py-20 lg:py-32 bg-gradient-to-br from-midnight-navy to-texas-blue text-white">
         <div className="section-container text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Blog & News</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">{c('hero.title')}</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200">
-            Stay up to date with the latest from Team TEXAS
+            {c('hero.subtitle')}
           </p>
         </div>
       </section>
@@ -41,7 +43,7 @@ export default async function BlogPage() {
                   className="card group"
                 >
                   <div className="relative h-64 overflow-hidden">
-                    <Image
+                    <CmsImage
                       src={post.coverImage}
                       alt={post.coverImageAlt}
                       fill
@@ -81,3 +83,5 @@ export default async function BlogPage() {
     </>
   )
 }
+
+export const dynamic = 'force-dynamic'

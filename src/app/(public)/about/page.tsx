@@ -1,4 +1,5 @@
-import Image from 'next/image'
+import CmsImage from '@/components/ui/CmsImage'
+import { getPageContent } from '@/lib/page-content'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
 
@@ -8,14 +9,18 @@ export const metadata = {
     'Learn about our mission to provide every special needs child and adult the opportunity to play sports.',
 }
 
-export default function AboutPage() {
+export const dynamic = 'force-dynamic'
+
+export default async function AboutPage() {
+  const c = await getPageContent('about')
+
   return (
     <>
       {/* Hero */}
       <section className="relative py-20 lg:py-32 text-white overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image
-            src="/home-6.png"
+          <CmsImage
+            src={c('hero.image')}
             alt="Team TEXAS athletes and coaches celebrating together"
             fill
             className="object-cover"
@@ -30,9 +35,9 @@ export default function AboutPage() {
               <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
             </svg>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">OUR STORY</h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">{c('hero.title')}</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto text-gray-200">
-            Building a community where every athlete belongs
+            {c('hero.subtitle')}
           </p>
         </div>
       </section>
@@ -42,12 +47,10 @@ export default function AboutPage() {
         <div className="section-container">
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-midnight-navy mb-6">
-              Our Mission
+              {c('mission.title')}
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 leading-relaxed">
-              To provide every special needs child or adult the opportunity to play sports in a
-              safe, supportive, and joyful environment where abilities are celebrated and
-              friendships flourish.
+              {c('mission.text')}
             </p>
           </div>
         </div>
@@ -59,8 +62,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
             {/* Image */}
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl">
-              <Image
-                src="/home-1.png"
+              <CmsImage
+                src={c('story1.image')}
                 alt="Team TEXAS athlete celebrating with coach"
                 fill
                 className="object-cover"
@@ -71,13 +74,13 @@ export default function AboutPage() {
             {/* Content */}
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-midnight-navy mb-6">
-                Where Every Ability Shines
+                {c('story1.title')}
               </h2>
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Team TEXAS Special Needs was founded on a simple belief: everyone deserves their moment to play. We've built a community where children and adults with special needs can experience the joy of sports in an environment designed for their success.
+                {c('story1.p1')}
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                Through adaptive sports programs, we're not just teaching skills—we're building confidence, creating lifelong friendships, and celebrating every victory, big or small.
+                {c('story1.p2')}
               </p>
             </div>
           </div>
@@ -86,20 +89,20 @@ export default function AboutPage() {
             {/* Content */}
             <div className="order-2 lg:order-1">
               <h2 className="text-3xl md:text-4xl font-bold text-midnight-navy mb-6">
-                A Community Built on Support
+                {c('story2.title')}
               </h2>
               <p className="text-lg text-gray-700 mb-4 leading-relaxed">
-                Our programs are led by dedicated coaches and volunteers who understand that every athlete is unique. We adapt activities to meet individual needs while fostering teamwork and sportsmanship.
+                {c('story2.p1')}
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                From basketball and soccer to community sports days, we create experiences that bring families together and build lasting memories.
+                {c('story2.p2')}
               </p>
             </div>
 
             {/* Image */}
             <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl order-1 lg:order-2">
-              <Image
-                src="/home-2.png"
+              <CmsImage
+                src={c('story2.image')}
                 alt="Team TEXAS community together"
                 fill
                 className="object-cover"
@@ -167,17 +170,17 @@ export default function AboutPage() {
         <div className="section-container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-midnight-navy mb-4">
-              Our Programs
+              {c('programs.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover the adaptive sports programs that make Team TEXAS special
+              {c('programs.subtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg group">
-              <Image
-                src="/home-3.png"
+              <CmsImage
+                src={c('programs.image1')}
                 alt="Adaptive Basketball"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -192,8 +195,8 @@ export default function AboutPage() {
             </div>
 
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg group">
-              <Image
-                src="/home-4.png"
+              <CmsImage
+                src={c('programs.image2')}
                 alt="Inclusive Soccer"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -208,8 +211,8 @@ export default function AboutPage() {
             </div>
 
             <div className="relative h-80 rounded-2xl overflow-hidden shadow-lg group">
-              <Image
-                src="/home-5.png"
+              <CmsImage
+                src={c('programs.image3')}
                 alt="Community Sports Days"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-300"
@@ -235,10 +238,9 @@ export default function AboutPage() {
       {/* Call to Action */}
       <section className="py-16 lg:py-24 bg-texas-blue text-white">
         <div className="section-container text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">Join Our Team</h2>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">{c('cta.title')}</h2>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">
-            Whether you're looking to register an athlete, volunteer, or support our mission, we'd
-            love to have you as part of the Team TEXAS family.
+            {c('cta.text')}
           </p>
           <Link href="/contact">
             <Button variant="secondary" size="lg">
