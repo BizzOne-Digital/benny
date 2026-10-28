@@ -45,4 +45,8 @@ export const authConfig: NextAuthConfig = {
   },
 }
 
-export const { auth: edgeAuth } = NextAuth(authConfig)
+export const { auth: edgeAuth } = NextAuth({
+  ...authConfig,
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET,
+  trustHost: true,
+})
