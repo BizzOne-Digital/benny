@@ -16,6 +16,7 @@ const navigation = [
   { name: 'Testimonials', href: '/admin/testimonials', icon: 'testimonials' },
   { name: 'FAQs', href: '/admin/faqs', icon: 'faqs' },
   { name: 'Team', href: '/admin/team', icon: 'team' },
+  { name: 'Sponsors', href: '/admin/sponsors', icon: 'sponsors' },
   { name: 'Blog', href: '/admin/blog', icon: 'blog' },
   { name: 'Products', href: '/admin/products', icon: 'products' },
   { name: 'Pricing', href: '/admin/pricing', icon: 'pricing' },

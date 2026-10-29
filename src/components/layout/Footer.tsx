@@ -15,6 +15,7 @@ export default async function Footer() {
     { name: 'Programs', href: '/services' },
     { name: 'Stories', href: '/testimonials' },
     { name: 'Team', href: '/team' },
+    { name: 'Sponsors', href: '/sponsors' },
     { name: 'Blog', href: '/blog' },
     { name: 'Shop', href: '/shop' },
     { name: 'Pricing', href: '/pricing' },

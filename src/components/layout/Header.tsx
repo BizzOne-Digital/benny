@@ -12,6 +12,7 @@ const navigation = [
   { name: 'Programs', href: '/services' },
   { name: 'Register', href: '/#registration' },
   { name: 'Stories', href: '/testimonials' },
+  { name: 'Sponsors', href: '/sponsors' },
   { name: 'Contact', href: '/contact' },
 ]
 

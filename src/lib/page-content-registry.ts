@@ -144,6 +144,22 @@ export const CONTENT_PAGES: ContentPage[] = [
     path: '/faq',
     fields: hero('Frequently Asked Questions', 'Find answers to common questions about our programs'),
   },
+  {
+    slug: 'sponsors',
+    name: 'Sponsors',
+    path: '/sponsors',
+    fields: [
+      ...hero('Our Sponsors', 'Thank you to the businesses and neighbors who help every athlete play.'),
+      { key: 'cta.title', label: 'Become a sponsor heading', type: 'text', default: 'Become a Sponsor' },
+      {
+        key: 'cta.text',
+        label: 'Become a sponsor text',
+        type: 'textarea',
+        default:
+          'Your support helps children and adults with special needs enjoy sports, make friends and build confidence. Contact us to learn how your business can join our team of sponsors.',
+      },
+    ],
+  },
   { slug: 'team', name: 'Team', path: '/team', fields: hero('Our Team', 'Meet the passionate people making a difference in our community') },
   { slug: 'shop', name: 'Shop', path: '/shop', fields: hero('Shop', 'Support Team TEXAS with official merchandise') },
   {

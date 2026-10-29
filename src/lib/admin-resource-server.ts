@@ -8,6 +8,7 @@ import FAQ from '@/models/FAQ'
 import FAQCategory from '@/models/FAQCategory'
 import PricingPlan from '@/models/PricingPlan'
 import BlogPost from '@/models/BlogPost'
+import Sponsor from '@/models/Sponsor'
 import { RESOURCES, slugify, type FieldConfig, type ResourceConfig } from './admin-resources'
 import { deleteStoredUploadByUrl } from './uploads'
 
@@ -21,6 +22,7 @@ const MODELS: Record<string, Model<any>> = {
   'faq-categories': FAQCategory,
   pricing: PricingPlan,
   blog: BlogPost,
+  sponsors: Sponsor,
 }
 
 export function getResource(key: string) {
