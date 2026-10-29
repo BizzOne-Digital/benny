@@ -248,14 +248,14 @@ async function seed() {
     console.log('✅ FAQs created')
 
     // Create founder team member
-    const founderExists = await TeamMember.findOne({ name: 'Coach Johnson' })
+    const founderExists = await TeamMember.findOne({ name: 'Coach Benny' })
     if (!founderExists) {
       await TeamMember.create({
-        name: 'Coach Johnson',
+        name: 'Coach Benny',
         role: 'Founder, President & Coach',
-        bio: 'With over 15 years of experience in adaptive sports, Coach Johnson founded Team TEXAS with a vision to create truly inclusive sports opportunities for everyone. (This is editable placeholder content - please update with actual founder information)',
+        bio: 'With over 16 years of experience in adaptive sports, Coach Benny founded Team TEXAS along with his son Justin, who is special needs, with a vision to create truly inclusive sports opportunities for everyone.',
         photoUrl: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400',
-        photoAlt: 'Coach Johnson smiling',
+        photoAlt: 'Coach Benny',
         order: 1,
         isFeatured: true,
         isPublished: true,

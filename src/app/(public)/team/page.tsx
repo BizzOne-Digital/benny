@@ -46,7 +46,7 @@ export default async function TeamPage() {
                   <div className="p-6">
                     <h3 className="text-2xl font-bold text-midnight-navy mb-2">{member.name}</h3>
                     <p className="text-texas-blue font-semibold mb-4">{member.role}</p>
-                    <p className="text-gray-700 leading-relaxed mb-4">{member.bio}</p>
+                    <p className="text-gray-700 leading-relaxed mb-4 whitespace-pre-line">{member.bio}</p>
                     {member.socialLinks && (
                       <div className="flex space-x-3">
                         {member.socialLinks.email && (
