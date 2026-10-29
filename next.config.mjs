@@ -1,5 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    // Old/alternate URLs people may have bookmarked or found on Google
+    const moved = {
+      '/gallery': '/#gallery',
+      '/home': '/',
+      '/about-us': '/about',
+      '/our-story': '/about',
+      '/our-team': '/team',
+      '/programs': '/services',
+      '/contact-us': '/contact',
+      '/register': '/#registration',
+    }
+    return Object.entries(moved).map(([source, destination]) => ({ source, destination, permanent: true }))
+  },
   images: {
     localPatterns: [
       { pathname: '/api/uploads/**' },

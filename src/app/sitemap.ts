@@ -4,7 +4,7 @@ import Service, { type IService } from '@/models/Service'
 import BlogPost, { type IBlogPost } from '@/models/BlogPost'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXTAUTH_URL || 'https://teamtexasspecialneeds.com'
+  const baseUrl = 'https://www.teamtexasspecialneeds.com'
 
   await connectDB()
 
@@ -20,7 +20,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '',
     '/about',
     '/services',
-    '/gallery',
     '/testimonials',
     '/team',
     '/blog',

@@ -6,4 +6,4 @@ Allow: /
 Disallow: /admin/
 
 # Sitemap
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://www.teamtexasspecialneeds.com/sitemap.xml
