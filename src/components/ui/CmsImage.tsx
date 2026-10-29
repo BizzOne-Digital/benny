@@ -16,7 +16,14 @@ export default function CmsImage({ src, alt, className, fill, width, height, ...
           src={resolved}
           alt={alt}
           className={className as string | undefined}
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            // Tailwind object-* classes (e.g. object-contain for logos) win over the default crop
+            ...(String(className || '').includes('object-') ? {} : { objectFit: 'cover' as const }),
+          }}
         />
       )
     }

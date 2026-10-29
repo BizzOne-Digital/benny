@@ -28,7 +28,7 @@ function SponsorCard({ sponsor, featured }: { sponsor: ISponsor; featured?: bool
   const body = (
     <div
       className={`bg-white rounded-2xl shadow-lg h-full flex flex-col items-center text-center ${
-        featured ? 'p-10 border-2 border-warm-gold' : 'p-8'
+        featured ? 'p-10 border-2 border-warm-gold w-full max-w-xl' : 'p-8'
       }`}
     >
       <div className={`relative w-full ${featured ? 'h-40' : 'h-28'} mb-6`}>
@@ -54,7 +54,8 @@ function SponsorCard({ sponsor, featured }: { sponsor: ISponsor; featured?: bool
   )
 
   return href ? (
-    <a href={href} target="_blank" rel="noopener noreferrer sponsored" className="block hover:-translate-y-1 transition-transform">
+    <a href={href} target="_blank" rel="noopener noreferrer sponsored" className={`block hover:-translate-y-1 transition-transform ${featured ? 'w-full max-w-xl' : ''}`}
+    >
       {body}
     </a>
   ) : (
@@ -88,7 +89,7 @@ export default async function SponsorsPage() {
               {founding.length > 0 && (
                 <div>
                   <h2 className="text-3xl font-black text-midnight-navy text-center mb-8">Founding Sponsor</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                  <div className="flex flex-wrap justify-center gap-8">
                     {founding.map((s) => (
                       <SponsorCard key={s._id.toString()} sponsor={s} featured />
                     ))}
