@@ -1,4 +1,5 @@
 import CmsImage from '@/components/ui/CmsImage'
+import FounderSection from '@/components/FounderSection'
 import { getPageContent } from '@/lib/page-content'
 import Link from 'next/link'
 import Button from '@/components/ui/Button'
@@ -41,6 +42,8 @@ export default async function AboutPage() {
           </p>
         </div>
       </section>
+
+      <FounderSection />
 
       {/* Mission Statement */}
       <section className="py-16 lg:py-24 bg-white">

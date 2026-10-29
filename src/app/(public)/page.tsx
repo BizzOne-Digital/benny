@@ -2,6 +2,7 @@ import Link from 'next/link'
 import connectDB from '@/lib/mongodb'
 import GalleryImage from '@/models/GalleryImage'
 import CmsImage from '@/components/ui/CmsImage'
+import FounderSection from '@/components/FounderSection'
 import { getPageContent } from '@/lib/page-content'
 import { getSiteSettings } from '@/lib/site-settings'
 import { getPublicAnnouncements, getPublicPrograms } from '@/lib/public-content'
@@ -170,7 +171,11 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Founder story */}
+      <FounderSection />
+
       {/* Special Announcements */}
+
       {specialAnnouncements.length > 0 && (
         <section className="bg-victory-red text-white py-6 lg:py-8 border-b-4 border-warm-gold" aria-label="Special announcements">
           <div className="section-container">
